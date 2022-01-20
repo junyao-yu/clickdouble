@@ -1,42 +1,38 @@
 plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
-}
-
-android {
-    compileSdkVersion 31
-    buildToolsVersion "31.0.0"
-
-    defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 31
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+    id 'groovy'
+    id 'maven'
 }
 
 dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.android.tools.build:gradle:3.3.0'
+
+    implementation 'org.ow2.asm:asm:7.1'
+    implementation 'org.ow2.asm:asm-commons:7.1'
+    compileOnly files('libs/commons-io-2.11.0.jar')
+    compileOnly files('libs/commons-io-2.11.0-sources.jar')
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+// 打包到本地或者远程Maven库
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.groupId = 'com.carson.click'   // groupId
+            pom.artifactId = 'double'  // artifactId
+            pom.version = '0.0.1' // 版本号
+            //提交到远程服务器：
+            // repository(url: "http://www.xxx.com/repos") {
+            //    authentication(userName: "admin", password: "admin")
+            // }
+            // 本地的Maven地址设置为
+            repository(url: uri('../repo'))
+        }
+    }
 }

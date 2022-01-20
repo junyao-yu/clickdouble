@@ -1,4 +1,4 @@
-package com.carson.clickplugin
+package com.carson.click
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -9,11 +9,15 @@ import org.gradle.api.Project
 class ClickPlugin implements Plugin<Project> {
 
     @Override
-    void apply(Project target) {
+    void apply(Project project) {
         println("***************************************************************************")
         println("**********************************防重插件**********************************")
         println("***************************************************************************")
 
+        project.extensions.create("clickDouble", ClickDoubleExtension)
+        project.tasks.create("printClickDouble").doLast {
+            println("是否开启 = " + project.clickDouble.isOpen)
+        }
     }
 
 }
