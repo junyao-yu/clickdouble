@@ -1,0 +1,5 @@
+include ':android-common'
+
+/** for mayflower 达达用户端 */
+include ':dada-mayflower'
+
