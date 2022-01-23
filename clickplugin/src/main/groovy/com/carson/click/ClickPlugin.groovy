@@ -15,7 +15,7 @@ class ClickPlugin implements Plugin<Project> {
         println("***************************************************************************")
 
         project.extensions.create("clickDouble", ClickDoubleExtension)
-        project.tasks.create("printClickDouble").doLast {
+        project.afterEvaluate {
             println("是否开启 = " + project.clickDouble.isOpen)
         }
     }
