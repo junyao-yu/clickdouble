@@ -17,6 +17,10 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+        ndk {
+            abiFilters "", ""
+        }
     }
 
     buildTypes {
@@ -37,6 +41,7 @@ android {
 
 clickDouble {
     isOpen = true
+    filterPackageName = ["com.carson.clickdouble", "xxx"]
 }
 
 dependencies {

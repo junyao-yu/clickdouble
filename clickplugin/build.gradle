@@ -11,6 +11,9 @@ dependencies {
 
     implementation 'org.ow2.asm:asm:7.1'
     implementation 'org.ow2.asm:asm-commons:7.1'
+    implementation 'org.ow2.asm:asm-analysis:7.1'
+    implementation 'org.ow2.asm:asm-util:7.1'
+    implementation 'org.ow2.asm:asm-tree:7.1'
     compileOnly files('libs/commons-io-2.11.0.jar')
     compileOnly files('libs/commons-io-2.11.0-sources.jar')
 }

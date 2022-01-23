@@ -7,4 +7,6 @@ class ClickDoubleExtension {
 
     boolean isOpen
 
+    List<String> filterPackageName
+
 }
