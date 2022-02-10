@@ -76,9 +76,20 @@ class ClickDoubleTransform extends Transform {
                 project.logger.warn("=============================================")
 
                 File destFile = outputProvider.getContentLocation(directoryInput.name, directoryInput.contentTypes, directoryInput.scopes, Format.DIRECTORY)
+                /***
+                 * /Users/yujunyao/git/clickdouble/app/build/intermediates/transforms/clickDouble/debug/0 //放java文件
+                 *
+                 * /Users/yujunyao/git/clickdouble/app/build/intermediates/transforms/clickDouble/debug/1 //放kotlin文件
+                 */
+
                 project.logger.warn("destFile.absolutePath--->" + destFile.absolutePath)
 
                 File dirFile = directoryInput.file
+                /***
+                 * /Users/yujunyao/git/clickdouble/app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes
+                 *
+                 * /Users/yujunyao/git/clickdouble/app/build/tmp/kotlin-classes/debug
+                 */
                 project.logger.warn("dirFile.absolutePath--->" + dirFile.absolutePath)
 
                 if (dirFile) {
@@ -91,14 +102,24 @@ class ClickDoubleTransform extends Transform {
 
                     /**筛选.class后缀的文件*/
                     dirFile.traverse(type: FileType.FILES, nameFilter: ~/.*\.class/) { File classFile ->
-                        project.logger.warn("classFile.absolutePath--->" + classFile.absolutePath)
+                        if (Utils.isShouldHit(clickDoubleExtension.filterPackageName, classFile.name)) {
+                            project.logger.warn("classFile.absolutePath--->" + classFile.absolutePath)
 
+                            File fileModified = null
+                            if (clickDoubleExtension.isOpen) {
+                                fileModified = Utils.modifyClassFile(dirFile, classFile, context.temporaryDir)
+                            }
+
+                            if (fileModified != null) {
+
+                            }
+                        }
                     }
 
                     /**extension扩展配置的参数*/
-                    clickDoubleExtension.filterPackageName.each { String packageName ->
-                        project.logger.warn("packageName--->" + packageName)
-                    }
+//                    clickDoubleExtension.filterPackageName.each { String packageName ->
+//                        project.logger.warn("packageName--->" + packageName)
+//                    }
 
                 }
 

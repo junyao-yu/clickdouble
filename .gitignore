@@ -86,4 +86,5 @@ lint/tmp/
 
 repo/
 .idea/
+.DS_Store
 
