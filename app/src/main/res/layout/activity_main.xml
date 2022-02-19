@@ -15,4 +15,14 @@
         android:background="@color/purple_200"
         android:text="按钮1"/>
 
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:gravity="center"
+        android:background="@color/purple_200"
+        android:text="按钮2"/>
+
 </LinearLayout>

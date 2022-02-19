@@ -13,6 +13,7 @@ import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformInvocation
 import com.android.build.api.transform.TransformOutputProvider
 import com.android.build.gradle.internal.pipeline.TransformManager
+import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 import groovy.io.FileType
 
@@ -93,33 +94,43 @@ class ClickDoubleTransform extends Transform {
                 project.logger.warn("dirFile.absolutePath--->" + dirFile.absolutePath)
 
                 if (dirFile) {
-
-
                     /**比较杂，只需要.class后缀的文件*/
 //                    dirFile.traverse { File classFile ->
 //                        project.logger.warn("classFile.absolutePath--->" + classFile.absolutePath)
 //                    }
-
+                    HashMap<String, File> modifyMap = new HashMap<>()
                     /**筛选.class后缀的文件*/
                     dirFile.traverse(type: FileType.FILES, nameFilter: ~/.*\.class/) { File classFile ->
-                        if (Utils.isShouldHit(clickDoubleExtension.filterPackageName, classFile.name)) {
+                        project.logger.warn("classFile.absolutePath--->" + classFile.absolutePath)
+                        if (Utils.isShouldHit(clickDoubleExtension.filterPackageName, classFile.absolutePath)) {
                             project.logger.warn("classFile.absolutePath--->" + classFile.absolutePath)
 
-                            File fileModified = null
-                            if (clickDoubleExtension.isOpen) {
-                                fileModified = Utils.modifyClassFile(dirFile, classFile, context.temporaryDir)
-                            }
+                            File fileModified = Utils.modifyClassFile(dirFile, classFile, context.getTemporaryDir())
 
                             if (fileModified != null) {
-
+                                String key = classFile.absolutePath.replace(dirFile.absolutePath, "")
+                                modifyMap.put(key, fileModified)
                             }
                         }
                     }
+
+                    /**复制到transforms/clickDouble/debug/目录下*/
+                    FileUtils.copyDirectory(directoryInput.file, destFile)
 
                     /**extension扩展配置的参数*/
 //                    clickDoubleExtension.filterPackageName.each { String packageName ->
 //                        project.logger.warn("packageName--->" + packageName)
 //                    }
+
+                    modifyMap.entrySet().each {
+                        Map.Entry<String, File> entry ->
+                            File target = new File(destFile.absolutePath + entry.getKey())
+                            if (target.exists()) {
+                                target.delete()
+                            }
+                            FileUtils.copyFile(entry.getValue(), target)
+                            entry.getValue().delete()
+                    }
 
                 }
 

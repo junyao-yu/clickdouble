@@ -16,7 +16,9 @@ class MainActivity: FragmentActivity() {
         button1.setOnClickListener {
             startActivity(Intent(this@MainActivity, SecondActivity::class.java))
         }
+        button2.setOnClickListener {
 
+        }
 //        while (true) {
 //            Thread(Runnable {
 //                Thread.sleep(10_000_000_000)

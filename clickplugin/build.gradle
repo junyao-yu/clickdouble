@@ -2,20 +2,23 @@ plugins {
     id 'groovy'
     id 'maven'
 }
-
+compileGroovy {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
 
-    implementation 'com.android.tools.build:gradle:3.3.0'
+    implementation 'com.android.tools.build:gradle:3.3.3'
 
     implementation 'org.ow2.asm:asm:7.1'
     implementation 'org.ow2.asm:asm-commons:7.1'
     implementation 'org.ow2.asm:asm-analysis:7.1'
     implementation 'org.ow2.asm:asm-util:7.1'
     implementation 'org.ow2.asm:asm-tree:7.1'
-    compileOnly files('libs/commons-io-2.11.0.jar')
-    compileOnly files('libs/commons-io-2.11.0-sources.jar')
+//    compileOnly files('libs/commons-io-2.11.0.jar')
+//    compileOnly files('libs/commons-io-2.11.0-sources.jar')
 }
 
 repositories {
@@ -29,7 +32,7 @@ uploadArchives {
         mavenDeployer {
             pom.groupId = 'com.carson.click'   // groupId
             pom.artifactId = 'double'  // artifactId
-            pom.version = '0.0.1' // 版本号
+            pom.version = '0.0.2' // 版本号
             //提交到远程服务器：
             // repository(url: "http://www.xxx.com/repos") {
             //    authentication(userName: "admin", password: "admin")

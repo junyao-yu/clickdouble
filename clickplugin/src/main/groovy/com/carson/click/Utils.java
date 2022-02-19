@@ -13,22 +13,23 @@ import java.util.List;
 
 public class Utils {
 
-    public static boolean isShouldHit(List<String> filterPackageName, String className) {
+    public static boolean isShouldHit(List<String> filterPackageName, String classPath) {
+        System.out.println("classPath ---> " + classPath);
         for (String packageName : filterPackageName) {
-            if (className.contains(packageName)) {
+            if (classPath.contains(packageName)) {
                 return true;
             }
         }
 
-        if (className.contains("R$") ||
-                className.contains("R2$") ||
-                className.contains("R.class") ||
-                className.contains("R2.class") ||
-                className.contains("BuildConfig.class")) {
+        if (classPath.contains("R$") ||
+                classPath.contains("R2$") ||
+                classPath.contains("R.class") ||
+                classPath.contains("R2.class") ||
+                classPath.contains("BuildConfig.class")) {
             return false;
         }
 
-        return true;
+        return false;
     }
 
     public static String pathNameConvert(String pathName) {
@@ -58,10 +59,12 @@ public class Utils {
     }
 
     private static byte[] modifyClass(byte[] srcClassBytes) {
+        System.out.println("start ams");
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         ClassVisitor classVisitor = new DoubleClickClassVisitor(classWriter);
         ClassReader classReader = new ClassReader(srcClassBytes);
         classReader.accept(classVisitor, ClassReader.SKIP_FRAMES);
+        System.out.println("end ams");
         return classWriter.toByteArray();
     }
 

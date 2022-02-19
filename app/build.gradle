@@ -21,6 +21,8 @@ android {
         ndk {
             abiFilters "", ""
         }
+
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -41,7 +43,7 @@ android {
 
 clickDouble {
     isOpen = true
-    filterPackageName = ["com.carson.clickdouble", "xxx"]
+    filterPackageName = ["com/carson/clickdouble", "xxx"]
 }
 
 dependencies {
