@@ -14,6 +14,7 @@ class MainActivity: FragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         button1.setOnClickListener {
+            //对于接口有效
             startActivity(Intent(this@MainActivity, SecondActivity::class.java))
         }
         button2.setOnClickListener {

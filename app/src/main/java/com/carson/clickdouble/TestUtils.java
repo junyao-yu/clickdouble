@@ -6,4 +6,8 @@ public class TestUtils {
 
     }
 
+    public static boolean preventRepeatClick() {
+        return true;
+    }
+
 }

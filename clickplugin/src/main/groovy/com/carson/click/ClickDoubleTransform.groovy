@@ -13,6 +13,7 @@ import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformInvocation
 import com.android.build.api.transform.TransformOutputProvider
 import com.android.build.gradle.internal.pipeline.TransformManager
+import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 import groovy.io.FileType
@@ -140,8 +141,23 @@ class ClickDoubleTransform extends Transform {
             /**以jar包方式参与项目编译的所有本地jar包和远程jar包，包括aar*/
             input.jarInputs.each { JarInput jarInput ->
 
+                String destName = jarInput.file.name
 
+                String hexName = DigestUtils.md5Hex(jarInput.file.absolutePath).substring(0, 8)
 
+                if (destName.endsWith(".jar")) {
+                    destName = destName.substring(0, destName.length() - 4)
+                }
+
+                File dest = outputProvider.getContentLocation(destName + "_" + hexName, jarInput.contentTypes, jarInput.scopes, Format.JAR)
+
+                File modifyFile = Utils.modifyJar(jarInput.file, context.getTemporaryDir(), true)
+
+                if (modifyFile == null) {
+                    modifyFile = jarInput.file
+                }
+
+                FileUtils.copyFile(modifyFile, dest)
             }
 
         }
